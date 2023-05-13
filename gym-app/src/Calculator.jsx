@@ -6,6 +6,7 @@ const Calculator = () => {
   const [oneRepMax, setOneRepMax] = useState('');
   const [unit, setUnit] = useState('kg'); // Default unit is kg
   const [lift, setLift] = useState('bench') // Default lift is bench
+  const [showBorder, setShowBorder] = useState(false)
 
   const handleWeightChange = (event) => {
     const numericValue = event.target.value.replace(/[^0-9.]/g, ''); // Allow only digits and dot
@@ -38,10 +39,13 @@ const Calculator = () => {
     }
 
     if (calculatedOneRepMax > 1000) {
-      calculatedOneRepMax = 999.99;
+      calculatedOneRepMax = 999.9;
     }
     
-    setOneRepMax('Your one rep max is: ' + (calculatedOneRepMax).toFixed(2) +'kg'); // Rounds to 2 d.p.
+    
+    setOneRepMax('Our experts estimate your ' + (lift) + ' one RM to be ' + (calculatedOneRepMax).toFixed(1) +'kg'); // Rounds to 1 d.p.
+
+    setShowBorder(true)
   };
 
   return (
@@ -71,13 +75,15 @@ const Calculator = () => {
             <input className="reps-input" type="text" value={reps} onChange={handleRepsChange} />
           </div>
           <div className="flex-center">
-            <button onClick={handleCalculateClick}>Calculate</button>
+            <button onClick={handleCalculateClick} disabled={!weight || !reps}>Calculate</button> {/* Only handle click if neither weight or reps are empty */}
           </div>
         </form>
-
-        <div className="flex-center oneRepMax">{oneRepMax}</div>
+        
+        {showBorder && <div className="one-rm-container">
+          <div className="flex-center oneRepMax">{oneRepMax}</div>
+        </div>} {/* Only display the container when button is clicked */}
       </div>
-      </div>
+    </div>
   );
 };
 
