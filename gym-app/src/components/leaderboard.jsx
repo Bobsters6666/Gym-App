@@ -4,12 +4,6 @@ import OnerepmaxDetails from './OnerepmaxDetails';
 
 export default function Test() {
   const [onerepmaxes, setOnerepmaxes] = useState(null);
-  const ranking = []
-  let currentRanking = 1;
-  const username = []
-  const lifts = [];
-  const reps = [];
-  const weights = [];
 
   // Fetches data from backend
   useEffect(() => {
@@ -25,73 +19,30 @@ export default function Test() {
     fetchOnerepmaxes();
   }, []);
 
-  // Populate separate arrays for each column
-  if (onerepmaxes) {
-    onerepmaxes.forEach((onerepmax) => {
-      ranking.push('#'+currentRanking)
-      username.push(onerepmax.username)
-      lifts.push(onerepmax.lift);
-      reps.push(onerepmax.reps);
-      weights.push(onerepmax.weight);
-
-      currentRanking += 1
-    });
-  }
-
   return (
     <div className="leaderboard-container">
-      <h1>Leaderboards</h1>
-      <div className="leaderboard">
-
+      <div className="leaderboard-cont">
+        <h1>Leaderboards</h1>
         <div className="leaderboard-row">
-
-          <div className="leaderboard-column">
-            <h4>Rankings</h4>
-            {ranking.map((username, index) => (
-              <p className="user" key={index}>{username}</p>
-            ))}
-          </div>
-
-          <div className="leaderboard-column">
-            <h4>User</h4>
-            
-            {username.map((username, index) => (
-              <p className="user" key={index}>{username}</p>
-            ))}
-          </div>
-
-          <div className="leaderboard-column">
-            <h4>Lifts</h4>
-            {lifts.map((lift, index) => (
-              <p key={index}>{lift}</p>
-            ))}
-          </div>
-
-          <div className="leaderboard-column">
-            <h4>Weight</h4>
-            {weights.map((weight, index) => (
-              <p key={index}>{weight}</p>
-            ))}
-          </div>
-
-          <div className="leaderboard-column">
-            <h4>Reps</h4>
-            {reps.map((rep, index) => (
-              <p key={index}>{rep}</p>
-            ))}
+          <div>
+            <div className="leaderboard-header-row">
+              <h4>Ranking</h4>
+              <h4>User</h4>
+              <h4>Lift</h4>
+              <h4>Weight (kg)</h4>
+              <h4>Reps</h4>
+              <h4>Max (kg)</h4>
+            </div>
+            <div>
+              {onerepmaxes &&
+              onerepmaxes.sort((a, b) => b.max - a.max) // Sort by onerepmax
+              .map((onerepmax, index) => (
+              <OnerepmaxDetails key={onerepmax._id} onerepmax={onerepmax} index={index} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="leaderboard">
-        <div className="">
-          {onerepmaxes && onerepmaxes.map((onerepmax) => (
-            <OnerepmaxDetails key={onerepmax._id} onerepmax = {onerepmax}/>
-          ))}
-          
-        </div>
-      </div>
-
+      </div> 
     </div>
   );
 }

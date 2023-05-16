@@ -30,16 +30,19 @@ const Calculator = () => {
 
   const handleCalculateClick = async (event) => {
     event.preventDefault();
-    let calculatedOneRepMax = 2;
+    let calculatedOneRepMax = parseFloat(weight);
     
-    if (lift === 'bench') {
-      calculatedOneRepMax = 1.022**reps * weight 
-    } else if (lift === 'squat') {
-      calculatedOneRepMax = 1.028**reps * weight
-    } else {
-      calculatedOneRepMax = 1.033**reps * weight
+    if (reps != 1) {
+      if (lift === 'bench') {
+        calculatedOneRepMax = 1.022 ** reps * weight;
+      } else if (lift === 'squat') {
+        calculatedOneRepMax = 1.028 ** reps * weight;
+      } else {
+        calculatedOneRepMax = 1.033 ** reps * weight;
+      }
     }
 
+    
     if (calculatedOneRepMax > 1000) {
       calculatedOneRepMax = 999.9;
     }

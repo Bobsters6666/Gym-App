@@ -26,7 +26,8 @@ export default function dashboard() {
 					<h2 className="text-center mb-4 signup-title">Profile</h2>
           {error && <Alert variant="danger">{error}</Alert>}
 					<strong>Username: </strong> {currentUser.displayName || 'Anonymous'}<br />
-					<strong>Email: </strong> {currentUser?.email || ''}
+					<strong>Email: </strong> {currentUser?.email || ''} <br />
+					<strong>One rep max: </strong> {currentUser.max || 0.0+"kg"}
 					<Link to="/update-profile" className="btn btn-primary w-100 mt-3">Update Profile</Link>
 				</Card.Body>
 			</Card>

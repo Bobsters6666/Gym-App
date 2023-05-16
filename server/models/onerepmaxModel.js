@@ -22,7 +22,12 @@ const OnerepmaxSchema = new Schema({
   max: {
     type: Number,
     required: true
+  },
+
+  maxBench: {
+    type: Number,
   }
+
 }, { timestamps: true })
 
 module.exports = mongoose.model('Onerepmax', OnerepmaxSchema)
