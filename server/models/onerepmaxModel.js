@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const OnerepmaxSchema = new Schema({
+  username: {
+    type: Schema.Types.Mixed,
+    required: true
+  },
   lift: {
     type: String,
     required: true
@@ -12,6 +16,10 @@ const OnerepmaxSchema = new Schema({
     required: true
   },
   reps: {
+    type: Number,
+    required: true
+  },
+  max: {
     type: Number,
     required: true
   }

@@ -29,11 +29,11 @@ const getOnerepmax = async (req, res) => {
 
 // create a new onerepmax
 const createOnerepmax = async (req, res) => {
-  const {lift, weight, reps} = req.body
+  const {username, lift, weight, reps, max} = req.body
 
   // add doc to db
   try {
-    const onerepmax = await Onerepmax.create({lift, weight, reps})
+    const onerepmax = await Onerepmax.create({username, lift, weight, reps, max})
     res.status(200).json(onerepmax)
   } catch (error) {
     res.status(400).json({error: error.message})

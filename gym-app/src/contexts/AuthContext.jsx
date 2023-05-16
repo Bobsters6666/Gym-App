@@ -12,8 +12,19 @@ export function AuthProvider({ children }) {
 	const [currentUser, setCurrentUser] = useState()
 	const [loading, setLoading] = useState(true)
 
-	function signup(email, password) {
+	function signup(email, password, username) {
 		return auth.createUserWithEmailAndPassword(email, password)
+			.then((userCredential) => {
+				console.log(userCredential)
+				// Set the user's display name
+				return userCredential.user.updateProfile({
+					displayName: username
+				});
+			})
+			.catch((error) => {
+				console.log('Error during signup:', error);
+				throw error; // Rethrow the error to propagate it further if needed
+			});
 	}
 
 	function login(email, password) {
@@ -36,6 +47,12 @@ export function AuthProvider({ children }) {
 		currentUser.updatePassword(password)
 	}
 
+	function updateUsername(username) {
+		return currentUser.updateProfile({
+			displayName: username
+		});
+	}
+
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
 			setCurrentUser(user)
@@ -53,6 +70,7 @@ export function AuthProvider({ children }) {
 		resetPassword,
 		updateEmail,
 		updatePassword,
+		updateUsername
 	}
 
   return (

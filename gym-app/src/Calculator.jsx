@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useAuth } from './contexts/AuthContext'
 
 const Calculator = () => {
+  const { currentUser, updateUsername } = useAuth()
   const [weight, setWeight] = useState('');
   const [reps, setReps] = useState('');
   const [oneRepMax, setOneRepMax] = useState('');
@@ -26,7 +28,7 @@ const Calculator = () => {
     setLift(event.target.value)
   }
 
-  const handleCalculateClick = (event) => {
+  const handleCalculateClick = async (event) => {
     event.preventDefault();
     let calculatedOneRepMax = 2;
     
@@ -46,6 +48,31 @@ const Calculator = () => {
     setOneRepMax('Our experts estimate your ' + (lift) + ' one RM to be ' + (calculatedOneRepMax).toFixed(1) +'kg'); // Rounds to 1 d.p.
 
     setShowBorder(true)
+
+
+    // if displayname is null, set it to anonymous
+    const username = currentUser.displayName || "Anonymous";
+
+    const onerepmax = {username, lift, weight, reps, max: calculatedOneRepMax.toFixed(1)}
+
+    // Send POST request to the backend
+    const response = await fetch('/api/' , {
+      method: 'POST',
+      body: JSON.stringify(onerepmax),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const json = await response.json()
+
+    if (!response.ok) {
+      console.log(json.error)
+    }
+
+    if (response.ok) {
+      console.log(json)
+    }
   };
 
   return (
